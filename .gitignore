@@ -1,3 +1,4 @@
+core
 *.solverstate
 *.caffemodel
 # Byte-compiled / optimized / DLL files
