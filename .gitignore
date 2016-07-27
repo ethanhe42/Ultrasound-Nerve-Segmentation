@@ -1,5 +1,5 @@
-.solverstate
-.caffemodel
+*.solverstate
+*.caffemodel
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
