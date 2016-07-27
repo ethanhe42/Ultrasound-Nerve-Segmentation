@@ -1,17 +1,15 @@
 #-.-encoding=utf-8-.-``
 # Yihui He, https://yihui-he.github.io
 import sys
-import pandas as pd
-sys.path.append("/home/yihuihe/Ultrasound-Nerve-Segmentation")
-sys.path.insert(0, "/home/yihuihe/miscellaneous/caffe/python")
-print sys.path
+sys.path.append("/home/heyihui/shared/Ultrasound-Nerve-Segmentation")
+sys.path.insert(0, "/home/heyihui/shared/caffe/python")
 import caffe
-print caffe.__file__
+print(caffe.__file__)
 import numpy as np
 import cv2
 from utils import NetHelper, CaffeSolver
 # import cfgs
-import unet_cfgs as cfgs
+import cfgs_unet as cfgs
 #import score
 #import surgery
 import os
@@ -44,7 +42,7 @@ for iter in range(500*2000):
             nethelper.hist('prob', filters=2,attr="blob")
             nethelper.hist('data', filters=2,attr="blob")
 
-            if False:
+            if True:
                 for i in range(nethelper.net.blobs['data'].data.shape[0]):
                     plt.subplot(221)
                     plt.imshow(nethelper.net.blobs['data'].data[i,0])

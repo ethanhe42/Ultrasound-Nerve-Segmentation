@@ -1,10 +1,10 @@
 ''' settings '''
 import os
 # data
-data_path = "/mnt/data1/yihuihe/ultrasound-nerve"
+data_path = "/home/heyihui/shared/ultrasound-nerve-segmentation/raw"
 train_data_path=os.path.join(data_path,"train_data")
 train_mask_path=os.path.join(data_path,"train_mask")
-test_data_path=os.path.join(data_path,"Ultrasound-Nerve-Segmentation-test")
+test_data_path=os.path.join(data_path,"test")
 test_pred_path=os.path.join(data_path,"test_mask")
 data_list_path="data"
 lmdb_path=data_path
@@ -19,12 +19,12 @@ solver_pt=os.path.join(pt_folder,"solver.prototxt")
 deploy_pt=os.path.join(pt_folder,"deploy.prototxt")
 
 # saved model
-model_name="saliency_fix" #ultrasound-nerve
-model_save_path="/mnt/data1/yihuihe"
-best_model=8000
+model_name="fix" #ultrasound-nerve
+model_save_path="saliency"
+best_model=1000
 best_model_dir=os.path.join(model_save_path,
     model_name+'_iter_'+str(best_model)+'.caffemodel')
-init="/mnt/data1/yihuihe/deep_net_model.caffemodel"
+init="saliency/deep_net_model.caffemodel"
 init=best_model_dir
 # init=None
 

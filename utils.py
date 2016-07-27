@@ -174,7 +174,7 @@ class Data:
             random.seed(seed)
 
         for folder in folders:
-            print folder
+            print(folder)
             for img in os.listdir(folder):
                 if len(img) == 0:
                     raise ValueError("invalid name")
@@ -185,11 +185,11 @@ class Data:
 
         random.shuffle(all_list)
         data_len=len(all_list)
-        print 'length of name list',data_len 
+        print('length of name list',data_len) 
         train_list=all_list[: int(data_len*train_ratio)]
-        print 'len_train_list', len(train_list)
+        print('len_train_list', len(train_list))
         val_list=all_list[int(data_len*train_ratio) :]
-        print 'len_val_list', len(val_list)
+        print('len_val_list', len(val_list))
 
         fid_train = open(os.path.join(save_dir,'train.txt'), 'w')
         fid_val = open(os.path.join(save_dir,'val.txt'), 'w')
@@ -253,7 +253,7 @@ class NetHelper:
         return prob_map
 
     def value_counts(self,layer): 
-        print pd.value_counts(self.net.blobs[layer].data.flatten())
+        print(pd.value_counts(self.net.blobs[layer].data.flatten()))
         
     def hist(self,layer, filters=None, bins=4, attr="blobs"):
         """
@@ -271,21 +271,21 @@ class NetHelper:
             # show response of this layer together
             cnts,boundary = np.histogram(response.flatten(),bins=bins)
             ret=pd.DataFrame(cnts,index=boundary[1:],columns=[layer])
-            print ret.T
+            print(ret.T)
         else:
             # print every filter
             response=response.swapaxes(0,1)
             for filter in range(np.minimum(filters, response.shape[0])):
                 cnts, boundary = np.histogram(response[filter,:,:,:].flatten(),bins=bins)
                 ret=pd.DataFrame(cnts,index=boundary[1:],columns=[layer])
-                print ret.T
+                print(ret.T)
                 
 
     
     def layerShape(self,layer):
         """inspect network params shape"""
         response=self.net.blobs[layer].data
-        print response.shape
+        print(response.shape)
     
     def showFilter(self,layer,filter=0,wait=-1,name='image'):
         """imshow filter"""
@@ -338,8 +338,8 @@ class segmentation:
 
     def __print(self,metric,name='metric'):
         """print metric and hist"""
-        print name,np.array(metric).mean()
-        print np.histogram(metric)
+        print(name,np.array(metric).mean())
+        print(np.histogram(metric))
 
 class factory:
     """Helper for building network"""        

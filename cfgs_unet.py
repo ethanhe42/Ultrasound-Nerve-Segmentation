@@ -19,15 +19,15 @@ solver_pt=os.path.join(pt_folder,"solver.prototxt")
 deploy_pt=os.path.join(pt_folder,"deploy.prototxt")
 
 # saved model
-model_name="only_flip" #ultrasound-nerve
-model_save_path="/mnt/data1/yihuihe"
+model_name="ultrasound" #ultrasound-nerve
+model_save_path="unet"
 best_model=8000
 best_model_dir=os.path.join(model_save_path,
     model_name+'_iter_'+str(best_model)+'.caffemodel')
 init=os.path.join(model_save_path,
     'ultrasound-nerve'+'_iter_'+str(best_model)+'.caffemodel')
 init=best_model_dir
-# init=None
+init=None
 
 # solver
 model="deeplab"
@@ -51,7 +51,7 @@ if debug:
     sp['test_iter']=20
     sp['test_interval']=1000
     sp['display']=100
-sp['snapshot_prefix']=os.path.join('/mnt/data1/yihuihe',model_name)
+sp['snapshot_prefix']=os.path.join('/home/heyihui/shared/Ultrasound-Nerve-Segmentation/unet',model_name)
 sp['train_net']=tr_pt
 sp['test_net']=te_pt
 

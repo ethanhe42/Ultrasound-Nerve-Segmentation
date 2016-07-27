@@ -18,13 +18,12 @@ class transformLayer(caffe.Layer):
     """
 
     def setup(self, bottom, top):
-        print 'hhhh'
         self.nb_top=3
         self.nb_bottom=4
         self.batch_size=bottom[0].data.shape[0]
         
         for i in range(self.nb_top):
-            print bottom[i].data.shape
+            print(bottom[i].data.shape)
             sys.stdout.flush()
             top[i].reshape(*bottom[i].data.shape)
 
@@ -49,10 +48,10 @@ class transformLayer(caffe.Layer):
         Load data.
         """
         # skip transformLayer in test phase
-        # if self.phase==caffe.TEST:
-        #     for i in range(self.nb_top):
-        #         top[i].data[...]=bottom[i].data
-        #     return
+        if self.phase==caffe.TEST:
+            for i in range(self.nb_top):
+                top[i].data[...]=bottom[i].data
+            return
         
         debug=False
         grid=230
@@ -77,12 +76,16 @@ class transformLayer(caffe.Layer):
             
             # random flip
             if np.random.randint(2):
-                img=cv2.flip(img,0)
-                label=cv2.flip(label,0)
+                img=img[::-1, :]
+                label=label[::-1, :]
             
             if np.random.randint(2):
-                img=cv2.flip(img,1)
-                label=cv2.flip(label,1)
+                img=img[:, ::-1]
+                label=label[:, ::-1]
+            
+            #random crop
+            img, label = crop(img, label)
+
             
             if debug:
                 plt.subplot(grid+3)
@@ -128,6 +131,36 @@ class transformLayer(caffe.Layer):
         """
         pass
 
+def crop(img, label=None, offset=4):
+    x_off_max = img.shape[0]//offset
+    y_off_max = img.shape[1]//offset
+    x_off = np.random.randint(-x_off_max, x_off_max+1)
+    y_off = np.random.randint(-y_off_max, y_off_max+1)
+    new_img = np.zeros_like(img)
+    if label is None:
+        if x_off >=0 and y_off >= 0:
+            new_img[x_off:, y_off:] = img[x_off:, y_off:]
+        elif x_off >=0 and y_off < 0:
+            new_img[x_off:, :y_off] = img[x_off:, :y_off]
+        elif x_off <0 and y_off >= 0:
+            new_img[:x_off, y_off:] = img[:x_off, y_off:]
+        else:
+            new_img[:x_off, :y_off] = img[:x_off, :y_off]
+        return new_img
+    new_label = np.zeros_like(label)
+    if x_off >=0 and y_off >= 0:
+        new_label[x_off:, y_off:] = label[x_off:, y_off:]
+        new_img[x_off:, y_off:] = img[x_off:, y_off:]
+    elif x_off >=0 and y_off < 0:
+        new_label[x_off:, :y_off] = label[x_off:, :y_off]
+        new_img[x_off:, :y_off] = img[x_off:, :y_off]
+    elif x_off <0 and y_off >= 0:
+        new_label[:x_off, y_off:] = label[:x_off, y_off:]
+        new_img[:x_off, y_off:] = img[:x_off, y_off:]
+    else:
+        new_label[:x_off, :y_off] = label[:x_off, :y_off]
+        new_img[:x_off, :y_off] = img[:x_off, :y_off]
+    return new_img, new_label
 
 def elastic_transform(image, alpha, sigma, alpha_affine, random_state=None):
     """Elastic deformation of images as described in [Simard2003]_ (with modifications).
@@ -183,8 +216,8 @@ def print_info(name, params):
     """
     Ouput some info regarding the class
     """
-    print "{} initialized for split: {}, with bs: {}, im_shape: {}.".format(
+    print("{} initialized for split: {}, with bs: {}, im_shape: {}.".format(
         name,
         params['split'],
         params['batch_size'],
-        params['im_shape'])
+        params['im_shape']))

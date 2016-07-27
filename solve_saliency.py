@@ -2,11 +2,9 @@
 # Yihui He, https://yihui-he.github.io
 import sys
 import pandas as pd
-sys.path.append("/home/yihuihe/Ultrasound-Nerve-Segmentation")
-sys.path.insert(0, "/home/yihuihe/miscellaneous/caffe/python")
-print sys.path
+sys.path.append("/home/heyihui/shared/Ultrasound-Nerve-Segmentation")
+# sys.path.insert(0, "/home/yihuihe/miscellaneous/caffe/python")
 import caffe
-print caffe.__file__
 import numpy as np
 import cv2
 from utils import NetHelper, CaffeSolver
@@ -27,7 +25,7 @@ debug=True
 weights = cfgs.init
 
 # init
-caffe.set_device(3)
+caffe.set_device(int(sys.argv[1]))
 caffe.set_mode_gpu()
 # caffe.set_mode_cpu()
 
@@ -44,7 +42,7 @@ for iter in range(500*2000):
             nethelper.hist('prob', filters=2,attr="blob")
             nethelper.hist('data', filters=2,attr="blob")
 
-            if True:
+            if False:
                 for i in range(nethelper.net.blobs['data'].data.shape[0]):
                     plt.subplot(221)
                     plt.imshow(nethelper.net.blobs['data'].data[i,0])

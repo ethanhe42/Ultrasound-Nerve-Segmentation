@@ -1,12 +1,12 @@
 average_loss: 20
-base_lr: 1e-03
+base_lr: 1e-04
 display: 100
 lr_policy: "poly"
 max_iter: 200000
 momentum: 0.9
 power: 0.9
-snapshot: 4000
-snapshot_prefix: "/mnt/data1/yihuihe/saliency_fix"
+snapshot: 1000
+snapshot_prefix: "/home/heyihui/shared/Ultrasound-Nerve-Segmentation/saliency/fix"
 test_initialization: true
 test_interval: 1000
 test_iter: 20

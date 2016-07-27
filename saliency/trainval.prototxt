@@ -56,7 +56,7 @@ layer {
   }
   image_data_param {
     source: "data/mask.txt"
-    batch_size: 24
+    batch_size: 48
     is_color: false
     shuffle: false
     new_height: 192
@@ -78,7 +78,7 @@ layer {
   }
   image_data_param {
     source: "data/train.txt"
-    batch_size: 24
+    batch_size: 48
     is_color: false
     shuffle: false
     new_height: 192
